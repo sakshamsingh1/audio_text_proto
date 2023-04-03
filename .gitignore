@@ -1,0 +1,6 @@
+.idea
+.DS_Store
+*.pt*
+.ipynb_checkpoints
+*.out
+__pycache__
