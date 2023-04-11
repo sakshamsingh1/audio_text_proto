@@ -59,7 +59,14 @@ dataset.download()
 
 #### Download the pretrained models
 ```
+# For AudioCLIP
+cd ref-repo/AudioCLIP/assets
+! wget https://github.com/AndreyGuzhov/AudioCLIP/releases/download/v0.1/AudioCLIP-Full-Training.pt
+! wget https://github.com/AndreyGuzhov/AudioCLIP/releases/download/v0.1/bpe_simple_vocab_16e6.txt.gz 
+! gunzip ref-repo/AudioCLIP/assets/bpe_simple_vocab_16e6.txt.gz
 
+# For CLAP
+! gdown 1Ni8lZ2pryTESjgq8gELLQNM_HGdWtFrE
 ```
 
 #### TODO
