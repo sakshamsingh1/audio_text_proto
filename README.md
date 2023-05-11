@@ -34,7 +34,7 @@ To use the repo, there are four steps:
 
 #### Clone the repo
 ```
-git clone --recurse-submodules <this-repo-link>
+git clone --recurse-submodules git@github.com:sakshamsingh1/ZS_audio_text.git
 ```
 
 #### Download the data

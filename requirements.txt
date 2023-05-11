@@ -1,3 +1,4 @@
 gensim==3.8.3
 soundata
 gdown
+typing_extensions
