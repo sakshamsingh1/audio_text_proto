@@ -16,8 +16,8 @@ Official release of multimodal prototypical approach for sound recognition
        ├── audioClip-feat-embd 
        ├── clap-feat-embd
        ├── other-data
-├── ref-repo (contains the reference repo)
 ├── scripts (contains the source code)
+  ├── ref-repo (contains the reference repo)
 ```
 
 ### Installation

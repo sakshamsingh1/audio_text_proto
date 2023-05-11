@@ -1,6 +1,7 @@
 from torch.utils.data import Dataset
 import soundata
 import pickle
+from glob import glob
 
 class FSD50k(Dataset):
     def __init__(self):
@@ -37,3 +38,27 @@ class FSD50k(Dataset):
         fold = self.folds[idx]
 
         return path, label, fold
+
+class ESC(Dataset):
+    def __init__(self):
+        audio_base_path = '../data/input/esc/'
+        self.paths = glob(audio_base_path+'audio/*.wav')
+
+    def __len__(self):
+        return len(self.paths)
+
+    def __getitem__(self, idx):
+        path = self.paths[idx]
+        return path
+
+class US8k(Dataset):
+    def __init__(self):
+        audio_base_path = '../data/input/US8k/'
+        self.paths = glob(audio_base_path+'audio/fold*/*.wav')
+
+    def __len__(self):
+        return len(self.paths)
+
+    def __getitem__(self, idx):
+        path = self.paths[idx]
+        return path

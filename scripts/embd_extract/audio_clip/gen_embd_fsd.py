@@ -7,8 +7,8 @@ from torch.utils.data import DataLoader
 from utils import get_norm_audio_embd, get_model
 from common_utils import FSD50k
 
-def gen_fsdk_embd(args):
-    save_path = 'data/processed/fds50k_audioclip_embd.pt'
+def gen_fsdk_audioclip_embd(args):
+    save_path = '../data/processed/fds50k_audioclip_embd.pt'
     model = get_model(args)
 
     feat_data = {}
@@ -38,7 +38,6 @@ def gen_fsdk_embd(args):
     torch.save(feat_data, save_path)
 
 #### CLAP model
-
 model, model_cfg = get_model()
 
 def save_fold_embd():

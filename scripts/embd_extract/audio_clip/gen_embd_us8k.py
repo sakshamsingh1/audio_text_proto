@@ -4,14 +4,12 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader
 
 # imports from repo
-from gen_embd_helpers_us8k import *
+from common_utils import US8k
+from utils import get_norm_audio_embd, get_model
 
-# constants and variables
-model, model_cfg = get_model(param_path)
-
-
-def gen_us8k_embd():
-    save_path = '/scratch/sk8974/experiments/audio_text/audio_text_dhh/data/CLAP/us8k_feat/'
+def gen_us8k_audioclip_embd(args):
+    model = get_model(args)
+    save_path = '../data/processed/us8k_audioclip_embd.pt'
 
     feat_data = {}
 
@@ -19,9 +17,7 @@ def gen_us8k_embd():
     train_dataloader = DataLoader(train_set, batch_size=64, shuffle=False)
 
     for paths in tqdm(train_dataloader):
-        # print(f'Batch {i}')
-        # import pdb; pdb.set_trace()
-        audio_embd = get_audio_embd(paths, model, model_cfg)
+        audio_embd = get_norm_audio_embd(paths, model, mono=False)
 
         for idx, embd in enumerate(audio_embd):
             path = paths[idx]
