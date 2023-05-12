@@ -6,7 +6,7 @@ import numpy as np
 import torchvision as tv
 import torch
 
-from scripts.ref_repo.AudioCLIP.model import AudioCLIP
+from scripts.ref_repo.AudioCLIP.model import *
 from scripts.ref_repo.AudioCLIP.utils.transforms import ToTensor1D, RandomPadding, RandomCrop
 
 ### AudioClip ###
