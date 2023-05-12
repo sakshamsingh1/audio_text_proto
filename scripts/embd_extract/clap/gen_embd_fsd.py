@@ -4,11 +4,11 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader
 
 # imports from repo
-from scripts.embd_extract.clap.utils import get_audio_embd, get_model
+from scripts.embd_extract.clap.utils import get_model
 from common_utils import FSD50k
 
 #### CLAP model
-model, model_cfg = get_model()
+model = get_model()
 
 def gen_fsdk_clap_embd():
     save_path = '../data/processed/fds50k_clap_embd.pt'
@@ -24,7 +24,7 @@ def gen_fsdk_clap_embd():
         labels = [data[1] for data in batch_data]
         folds = [data[2] for data in batch_data]
 
-        audio_embd = get_audio_embd(paths, model, model_cfg)
+        audio_embd = model.get_audio_embedding_from_filelist(paths, model)
 
         for idx, embd in enumerate(audio_embd):
             path = paths[idx]

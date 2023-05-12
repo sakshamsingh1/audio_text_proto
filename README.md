@@ -45,28 +45,22 @@ cd data/input
 git clone git@github.com:karolpiczak/ESC-50.git
 
 # Download the US8K dataset
-import soundata
-data_path = 'US8k/'
-dataset = soundata.initialize('urbansound8k', data_home=data_path)
-dataset.download()
+python download_us8k.py
 
 # Download the FSD50K dataset
-import soundata
-data_path = 'FSD50K/'
-dataset = soundata.initialize('fsd50k', data_home=data_path)
-dataset.download()
+python download_fsd50k.py
 ```
 
 #### Download the pretrained models
 ```
 # For AudioCLIP
-cd ref-repo/AudioCLIP/assets
+cd scripts/ref_repo/AudioCLIP/assets
 ! wget https://github.com/AndreyGuzhov/AudioCLIP/releases/download/v0.1/AudioCLIP-Full-Training.pt
 ! wget https://github.com/AndreyGuzhov/AudioCLIP/releases/download/v0.1/bpe_simple_vocab_16e6.txt.gz 
-! gunzip ref-repo/AudioCLIP/assets/bpe_simple_vocab_16e6.txt.gz
+! gunzip bpe_simple_vocab_16e6.txt.gz
 
 # For CLAP
-! gdown 1Ni8lZ2pryTESjgq8gELLQNM_HGdWtFrE
+! wget https://huggingface.co/lukewys/laion_clap/resolve/main/630k-audioset-fusion-best.pt
 ```
 
 #### TODO
