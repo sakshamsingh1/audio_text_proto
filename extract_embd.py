@@ -6,9 +6,9 @@ from scripts.embd_extract.audio_clip.gen_embd_esc import gen_esc_audioclip_embd
 from scripts.embd_extract.audio_clip.gen_embd_fsd import gen_fsdk_audioclip_embd
 from scripts.embd_extract.audio_clip.gen_embd_us8k import gen_us8k_audioclip_embd
 
-from scripts.embd_extract.clap.gen_embd_esc import gen_esc_clap_embd
-from scripts.embd_extract.clap.gen_embd_fsd import gen_fsdk_clap_embd
-from scripts.embd_extract.clap.gen_embd_us8k import gen_us8k_clap_embd
+# from scripts.embd_extract.clap.gen_embd_esc import gen_esc_clap_embd
+# from scripts.embd_extract.clap.gen_embd_fsd import gen_fsdk_clap_embd
+# from scripts.embd_extract.clap.gen_embd_us8k import gen_us8k_clap_embd
 
 
 if __name__ == "__main__":
@@ -28,13 +28,13 @@ if __name__ == "__main__":
             gen_esc_audioclip_embd(args)
         elif args.dataset_name == "us8k":
             gen_us8k_audioclip_embd(args)
-    else:
-        if args.dataset_name == "fsd50k":
-            gen_fsdk_clap_embd()
-        elif args.dataset_name == "esc-50":
-            gen_esc_clap_embd(args)
-        elif args.dataset_name == "us8k":
-            gen_us8k_clap_embd(args)
+    # else:
+    #     if args.dataset_name == "fsd50k":
+    #         gen_fsdk_clap_embd()
+    #     elif args.dataset_name == "esc-50":
+    #         gen_esc_clap_embd(args)
+    #     elif args.dataset_name == "us8k":
+    #         gen_us8k_clap_embd(args)
 
 
 
