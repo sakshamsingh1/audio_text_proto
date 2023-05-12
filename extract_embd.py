@@ -35,7 +35,3 @@ if __name__ == "__main__":
     #         gen_esc_clap_embd(args)
     #     elif args.dataset_name == "us8k":
     #         gen_us8k_clap_embd(args)
-
-
-
-
