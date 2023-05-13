@@ -5,10 +5,11 @@ import librosa
 import numpy as np
 import torchvision as tv
 import torch
+import os
 
-repo_path = 'scripts/ref_repo/AudioCLIP/'
+repo_path = os.path.join(os.getcwd(),'scripts/ref_repo/AudioCLIP/')
 sys.path.append(repo_path)
-from model import *
+from model import AudioCLIP
 from utils.transforms import ToTensor1D, RandomPadding, RandomCrop
 
 ### AudioClip ###
