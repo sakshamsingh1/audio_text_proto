@@ -41,7 +41,7 @@ class FSD50k(Dataset):
 
 class ESC(Dataset):
     def __init__(self):
-        audio_base_path = '../data/input/esc/'
+        audio_base_path = 'data/input/ESC-50/'
         self.paths = glob(audio_base_path+'audio/*.wav')
 
     def __len__(self):
@@ -53,7 +53,7 @@ class ESC(Dataset):
 
 class US8k(Dataset):
     def __init__(self):
-        audio_base_path = '../data/input/US8k/'
+        audio_base_path = 'data/input/US8k/'
         self.paths = glob(audio_base_path+'audio/fold*/*.wav')
 
     def __len__(self):

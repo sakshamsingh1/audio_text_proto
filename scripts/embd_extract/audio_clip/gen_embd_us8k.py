@@ -9,7 +9,7 @@ from scripts.embd_extract.audio_clip.utils import get_norm_audio_embd, get_model
 
 def gen_us8k_audioclip_embd(args):
     model = get_model(args)
-    save_path = '../data/processed/us8k_audioclip_embd.pt'
+    save_path = 'data/processed/us8k_audioclip_embd.pt'
 
     feat_data = {}
 

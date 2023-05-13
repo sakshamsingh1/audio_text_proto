@@ -11,7 +11,7 @@ from common_utils import FSD50k
 model = get_model()
 
 def gen_fsdk_clap_embd():
-    save_path = '../data/processed/fds50k_clap_embd.pt'
+    save_path = 'data/processed/fds50k_clap_embd.pt'
 
     feat_data = {}
 
