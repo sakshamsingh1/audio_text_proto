@@ -13,7 +13,7 @@ from utils.transforms import ToTensor1D, RandomPadding, RandomCrop
 
 ### AudioClip ###
 def get_model(args):
-    DIR = 'data/input/pretrained/'
+    DIR = 'scripts/ref_repo/AudioCLIP/assets/'
     MODEL_FILENAME = DIR+'AudioCLIP-Full-Training.pt'
     aclp = AudioCLIP(pretrained=MODEL_FILENAME)
     aclp.to(args.device)
