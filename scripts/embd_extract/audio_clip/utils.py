@@ -18,7 +18,7 @@ def get_model(args):
     MODEL_FILENAME = DIR+'AudioCLIP-Full-Training.pt'
     aclp = AudioCLIP(pretrained=MODEL_FILENAME)
     aclp.to(args.device)
-    return aclp, None
+    return aclp
 
 def scale(old_value, old_min, old_max, new_min, new_max):
     old_range = (old_max - old_min)
