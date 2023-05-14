@@ -9,11 +9,11 @@ import os
 
 repo_path = os.path.join(os.getcwd(),'scripts/ref_repo/AudioCLIP/')
 sys.path.append(repo_path)
-from utils.transforms import ToTensor1D, RandomPadding, RandomCrop
+from audioclip_utils.transforms import ToTensor1D, RandomPadding, RandomCrop
 from model.audioclip import AudioCLIP
 
 ### AudioClip ###
-def get_model(args):
+def get_audioclip_model(args):
     DIR = 'scripts/ref_repo/AudioCLIP/assets/'
     MODEL_FILENAME = DIR+'AudioCLIP-Full-Training.pt'
     aclp = AudioCLIP(pretrained=MODEL_FILENAME)

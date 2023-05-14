@@ -4,7 +4,7 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader
 
 from common_utils import FSD50k
-from scripts.embd_extract.audio_clip.utils import get_norm_audio_embd, get_model
+from scripts.embd_extract.audio_clip.audioclip_utils import get_norm_audio_embd, get_model
 
 def gen_fsdk_audioclip_embd(args):
     save_path = 'data/processed/fds50k_audioclip_embd.pt'

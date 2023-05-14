@@ -7,7 +7,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from common_utils import ESC
-from scripts.embd_extract.audio_clip.utils import get_norm_audio_embd, get_model
+from scripts.embd_extract.audio_clip.audioclip_utils import get_norm_audio_embd, get_model
 
 def gen_esc_audioclip_embd(args):
     model = get_model(args)
