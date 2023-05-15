@@ -11,7 +11,7 @@ def float32_to_int16(x):
     return (x * 32767.).astype(np.int16)
 
 def get_clap_model(args):
-    check_pt = '630k-audioset-fusion-best.pt'
+    check_pt = 'data/input/630k-audioset-fusion-best.pt'
     model = laion_clap.CLAP_Module(enable_fusion=True)
     model.load_ckpt(ckpt=check_pt)
     model = model.to(args.device)

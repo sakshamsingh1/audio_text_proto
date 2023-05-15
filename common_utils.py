@@ -99,12 +99,15 @@ def get_fsd_labels():
     return id_clapLabel_map
 
 def get_esc50_labels():
-    label_path = 'data/input/esc50/esc50.csv'
+    label_path = 'data/input/ESC-50/meta/esc50.csv'
     df = pd.read_csv(label_path)
     df['category'] = df['category'].apply(lambda x : " ".join(x.split('_')))
     label_map = dict(zip(list(df.target),list(df.category)))
+    return label_map
 
-    labels = []
-    for i in range(50):
-        labels.append(label_map[i])
-    return labels, label_map
+def get_us8k_labels():
+    label_path = 'data/input/US8k/metadata/UrbanSound8K.csv'
+    df = pd.read_csv(label_path)
+    df['class_'] = df['class'].apply(lambda x : " ".join(x.split('_')))
+    label_map = dict(zip(list(df.classID),list(df.class_)))
+    return label_map
