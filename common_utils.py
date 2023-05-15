@@ -2,6 +2,7 @@ from torch.utils.data import Dataset
 import soundata
 import pickle
 from glob import glob
+import pandas as pd
 
 class FSD50k(Dataset):
     def __init__(self):
@@ -11,11 +12,11 @@ class FSD50k(Dataset):
         self.fill()
 
     def fill(self):
-        data_path = 'data/input/fsd50k/'
+        data_path = 'data/input/FSD50K/'
         soundataset = soundata.initialize('fsd50k', data_home=data_path)
         sound_clips = soundataset.load_clips()
 
-        label_file = 'data/processed/name_id_label_map.pkl'
+        label_file = 'data/processed/fsd50k/name_id_label_map.pkl'
         with open(label_file, 'rb') as f:
             label_id_data = pickle.load(f)
 
@@ -62,3 +63,48 @@ class US8k(Dataset):
     def __getitem__(self, idx):
         path = self.paths[idx]
         return path
+
+def get_embdDim(model_type):
+    if model_type == "audioclip":
+        return 1024
+    elif model_type == "clap":
+        return 512
+    return None
+
+def get_labelCount(data_type):
+    if data_type == "esc50":
+        return 50
+    elif data_type == "us8k":
+        return 10
+    elif data_type == "fsd50k":
+        return 200
+    return None
+
+def read_pkl(file):
+    with open(file, "rb") as file:
+        data = pickle.load(file)
+    return data
+
+def get_fsd_labels():
+    base_dir = 'data/processed/fsd50k'
+    id_origLabel_map = read_pkl(base_dir+'label_map.pkl')
+    orig_clapLabel_map = read_pkl(base_dir+'label_to_clap_label.pkl')
+
+    id_clapLabel_map = {}
+    labels = []
+    for i in range(200):
+        orig_label = id_origLabel_map[i]
+        id_clapLabel_map[i] = orig_clapLabel_map[orig_label]
+        labels.append(orig_label)
+    return id_clapLabel_map
+
+def get_esc50_labels():
+    label_path = 'data/input/esc50/esc50.csv'
+    df = pd.read_csv(label_path)
+    df['category'] = df['category'].apply(lambda x : " ".join(x.split('_')))
+    label_map = dict(zip(list(df.target),list(df.category)))
+
+    labels = []
+    for i in range(50):
+        labels.append(label_map[i])
+    return labels, label_map
