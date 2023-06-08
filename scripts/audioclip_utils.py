@@ -59,3 +59,15 @@ def get_norm_audio_embd(paths_to_audio, aclp, mono=True):
 
     audio_features = audio_features / torch.linalg.norm(audio_features, dim=-1, keepdim=True)
     return audio_features
+
+def get_text_embd(labels):
+    # expects all the prompts attached to the labels
+    model = get_audioclip_model()
+
+    model.eval()
+    with torch.no_grad():
+        ((_, _, text_features), _), _ = model(text=labels)
+
+    text_features = text_features / torch.linalg.norm(text_features, dim=-1, keepdim=True)
+
+    return text_features

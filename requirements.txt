@@ -8,4 +8,4 @@ termcolor==1.1.0
 visdom==0.1.8.9
 ftfy
 regex
-
+sklearn

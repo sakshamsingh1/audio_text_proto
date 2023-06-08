@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 import warnings
 warnings.filterwarnings("ignore")
 
-from common_utils import ESC, FSD50k, US8k
+from common_utils import ESC, FSD50k, US8k, get_embd_path
 from scripts.embd_extract.audioclip_utils import get_norm_audio_embd, get_audioclip_model
 from scripts.embd_extract.clap_utils import get_clap_model
 
@@ -17,7 +17,7 @@ def gen_embd(args):
     elif args.model_type == "clap":
         model = get_clap_model(args)
 
-    save_path = f'data/processed/{args.dataset_name}_audioclip_embd.pt'
+    save_path = get_embd_path(args.dataset_name, args.model_type)
 
     feat_data = {}
 
