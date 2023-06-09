@@ -4,11 +4,11 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader
 
 # imports from repo
-from scripts.embd_extract.clap.clap_utils import get_model
+from scripts.clap_utils import get_clap_model
 from common_utils import FSD50k
 
 #### CLAP model
-model = get_model()
+model = get_clap_model()
 
 def gen_fsdk_clap_embd():
     save_path = 'data/processed/fds50k_clap_embd.pt'
