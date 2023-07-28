@@ -9,3 +9,4 @@ visdom==0.1.8.9
 ftfy
 regex
 sklearn
+laion-clap

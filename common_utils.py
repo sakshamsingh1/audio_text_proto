@@ -7,6 +7,7 @@ import torch
 import torch.nn as nn
 from sklearn.metrics import average_precision_score
 import numpy as np
+from tqdm import tqdm
 
 def get_cos_sim(mean_embd, curr_embd):
     cos = nn.CosineSimilarity(dim=1, eps=1e-8)
@@ -141,6 +142,49 @@ def get_label_map(data_type):
         return get_fsd_labels()
     return None
 
+def get_near_dist_class(mean_embd, curr_embd):
+    min_dist, min_class = None, None
+    for _class in mean_embd:
+        class_embd = mean_embd[_class]
+        if class_embd is not None:
+            dist = (curr_embd - class_embd).pow(2).sum().sqrt()
+            if (min_dist is None) or (min_dist > dist):
+                min_dist = dist
+                min_class = _class
+        
+    return min_dist, min_class
+
+def run_inference_fsdk(obj, mean_embd_tensor):
+    total_map = 0
+    len_test = obj.test_norm_feat.shape[0]
+
+    for idx in tqdm(range(len_test)):
+        label_gt = obj.test_true_labels[idx]
+        label_oh = torch.zeros(obj.num_class)
+        label_oh = label_oh.scatter_(0, torch.tensor(label_gt), 1)
+        curr_audio = obj.test_norm_feat[[idx], :]
+        pred = get_cos_sim(mean_embd_tensor, curr_audio)
+        curr_map = get_map(pred, label_oh, use_sig=True)
+        total_map += curr_map
+    return total_map / len_test
+
+def run_inference(obj, class_embds):
+    correct_dist_dict = {}
+    correct_dist = []
+    
+    for i in range(len(obj.label_map)):
+        correct_dist_dict[i] = []
+    
+    for idx, file in enumerate(obj.test_files):
+        curr_cls = obj.test_true_labels[idx]
+        curr_audio = obj.test_norm_feat[idx]
+        pred_dist, pred_class = get_near_dist_class(class_embds, curr_audio)
+
+        if pred_class == curr_cls:
+            correct_dist.append(pred_dist)
+
+    return len(correct_dist)*100/len(obj.test_files)
+
 
 class Fold_var:
     def __init__(self, data_type, model_type, FOLD='train'):
@@ -185,5 +229,4 @@ class Fold_proto:
         test_data = Fold_var(data_type, model_type, FOLD='test')
         self.test_norm_feat = test_data.curr_norm_feat
         self.test_true_labels = test_data.curr_true_labels
-
 

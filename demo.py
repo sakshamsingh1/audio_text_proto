@@ -1,5 +1,3 @@
-# We use this script to test the model on a single audio clip.
-
 import argparse
 
 if __name__ == "__main__":

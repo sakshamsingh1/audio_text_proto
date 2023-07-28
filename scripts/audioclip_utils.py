@@ -13,11 +13,10 @@ from audioclip_utils.transforms import ToTensor1D, RandomPadding, RandomCrop
 from model.audioclip import AudioCLIP
 
 ### AudioClip ###
-def get_audioclip_model(args):
+def get_audioclip_model():
     DIR = 'scripts/ref_repo/AudioCLIP/assets/'
     MODEL_FILENAME = DIR+'AudioCLIP-Full-Training.pt'
     aclp = AudioCLIP(pretrained=MODEL_FILENAME)
-    aclp.to(args.device)
     return aclp
 
 def scale(old_value, old_min, old_max, new_min, new_max):
