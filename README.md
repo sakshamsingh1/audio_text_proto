@@ -1,26 +1,7 @@
 # ZS_audio_text
-Official release of multimodal prototypical approach for sound recognition
+Official release of the INTERSPEECH-23 paper : [A multimodal prototypical approach for unsupervised sound classification](https://arxiv.org/pdf/2306.12300.pdf)
 
-### Directory structure
-```
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── data
-  ├── input (contains the input data)
-       ├── ESC-50 
-       ├── US8K
-       ├── FSD50K
-       ├── Pre-trained models             
-  ├── processed (contains the processed data)
-       ├── audioClip-feat-embd 
-       ├── clap-feat-embd
-       ├── other-data
-├── scripts (contains the source code)
-  ├── ref-repo (contains the reference repo)
-```
-
-### Installation
+### environment setup
 ```
 pip install -r requirements.txt
 ```
@@ -58,15 +39,23 @@ cd scripts/ref_repo/AudioCLIP/assets
 ! wget https://github.com/AndreyGuzhov/AudioCLIP/releases/download/v0.1/AudioCLIP-Full-Training.pt
 ! wget https://github.com/AndreyGuzhov/AudioCLIP/releases/download/v0.1/bpe_simple_vocab_16e6.txt.gz 
 
-# For CLAP
-cd data/input
-! wget https://huggingface.co/lukewys/laion_clap/resolve/main/630k-audioset-fusion-best.pt
 ```
 
-#### TODO
-- [x] Download
-- [x] add submodules
-- [x] add pretrained models
-- [ ] add scripts
-
-
+### Directory structure
+```
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── data
+  ├── input (contains the input data)
+       ├── ESC-50 
+       ├── US8K
+       ├── FSD50K
+       ├── Pre-trained models             
+  ├── processed (contains the processed data)
+       ├── audioClip-feat-embd 
+       ├── clap-feat-embd
+       ├── other-data
+├── scripts (contains the source code)
+  ├── ref-repo (contains the reference repo)
+```
