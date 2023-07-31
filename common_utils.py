@@ -144,18 +144,6 @@ def get_label_map(data_type):
         return get_fsd_labels()
     return None
 
-# def get_near_dist_class(mean_embd, curr_embd):
-#     min_dist, min_class = None, None
-#     for _class in mean_embd:
-#         class_embd = mean_embd[_class]
-#         if class_embd is not None:
-#             dist = (curr_embd - class_embd).pow(2).sum().sqrt()
-#             if (min_dist is None) or (min_dist > dist):
-#                 min_dist = dist
-#                 min_class = _class
-        
-#     return min_dist, min_class
-
 def get_near_dist_class(mean_embd, curr_embd):
     min_dist, min_class = None, None
     for _class, class_embd in enumerate(mean_embd):

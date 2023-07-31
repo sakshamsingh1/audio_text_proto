@@ -161,19 +161,3 @@ def get_proto_ac(data_type, model_type, train_type):
         get_proto_ac_fsdk(data_type, model_type, train_type)
     elif data_type == 'esc50' or data_type == 'us8k':
         get_proto_ac_esc_us8k(data_type, model_type, train_type)
-
-    # if data_type == 'fsd50k':
-    #     obj = Fold_proto_fsd(data_type, model_type)
-    # elif data_type == 'esc50' or data_type == 'us8k':
-    #     obj = Fold_var_esc_us8k(data_type, model_type)
-    # PROMPT = 'This is '
-    # label_map = get_label_map(data_type)
-    # if train_type == 'sv':
-    #     mean_embd, mean_embd_tensor = audioLabels_2_meanEmbd(label_map, obj)
-    # else:
-    #     mean_embd, mean_embd_tensor = labels_2_meanEmbd(label_map, obj, topn=35, prompt=PROMPT)
-    # if data_type == 'fsd50k':
-    #     curr_acc = run_inference_fsdk(obj, mean_embd_tensor)
-    # else:
-    #     curr_acc = run_inference(obj, mean_embd_tensor)
-    # print(f' Model=proto_ac, train_type={train_type}, data_type={data_type}, acc/mAP={curr_acc}')
