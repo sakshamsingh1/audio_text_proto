@@ -11,8 +11,9 @@ To use the repo, there are four steps:
 1. Clone the repo with submodule
 2. Download the data and put them in the `data/input` directory
 3. Download pretrained model for AudioClip and LIAON-CLAP
-3. Extract the embeddings using the `script/extract_embed.py` script
-4. Run the `script/main.py` script with the desired model and dataset
+4. Extract the embeddings using the `extract_embed.py` script
+OR use the already extracted embeddings
+4. For `proto-ac` and `proto-lc` models run `prototypical.py` script with the desired model and dataset
 
 #### Clone the repo
 ```
@@ -46,7 +47,16 @@ python download_fsd50k.py
 wget https://huggingface.co/lukewys/laion_clap/resolve/main/630k-audioset-fusion-best.pt 
 ```
 
+#### Extracting embeddings
+This code is slow (has to be optimized) and we provide the extracted embeddings inside `data/processed`
+```
+python extract_embd.py --model_type <audioclip/clap> --dataset_name <esc50/us8k/fsd50k>
+```
 
+#### Our prototypical approach
+```
+python prototypical.py --model_type <proto-lc/proto-ac> --data <esc50/us8k/fsd50k> --train_type <zs/sv>
+```
 
 ### Directory structure
 ```
