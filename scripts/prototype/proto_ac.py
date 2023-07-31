@@ -43,7 +43,7 @@ def labels_2_meanEmbd(label_map, obj, topn=35, prompt = ''):
     return mean_embd, mean_embd_tensor
 
 # baseline: mean embedding of using true labels
-def audioLabels_2_meanEmbd(label_map, obj):
+def audioLabels_2_meanEmbd_fsd(label_map, obj):
     labels = []
     for i in range(len(label_map)):
         labels.append(label_map[i])
@@ -73,13 +73,45 @@ def audioLabels_2_meanEmbd(label_map, obj):
         mean_embd_tensor[i, :] = mean_embd[i]
     return mean_embd, mean_embd_tensor
 
+def audioLabels_2_meanEmbd_us8k_esc(label_map, obj):
+    labels = []
+    for i in range(len(label_map)):
+        labels.append(label_map[i])
+    
+    class_embd = {}
+    mean_embd = {}   
+    
+    for i in range(len(label_map)):
+        class_embd[i] = []
+    
+    for label_idx in range(len(labels)):
+        
+        ids = []
+
+        for i, gt in enumerate(obj.train_true_labels):
+            if gt == label_idx:#label_name:
+                ids.append(i)
+                curr_audio = obj.train_norm_feat[i]
+                class_embd[label_idx].append(curr_audio)
+    
+    mean_embd_tensor = torch.empty(len(label_map), 1024)
+
+    for i in range(len(labels)):
+        my_list = class_embd[i]
+        if len(my_list):
+            mean_embd[i] = torch.mean(torch.stack(my_list),dim=0)                
+        else:
+            mean_embd[i] = None
+        mean_embd_tensor[i, :] = mean_embd[i]
+    return mean_embd, mean_embd_tensor
+
 def get_proto_ac_fsdk(data_type, model_type, train_type):
     obj = Fold_proto_fsd(data_type, model_type)
     PROMPT = 'This is '
     label_map = get_label_map(data_type)
     
     if train_type == 'sv':
-        mean_embd, mean_embd_tensor = audioLabels_2_meanEmbd(label_map, obj)
+        mean_embd, mean_embd_tensor = audioLabels_2_meanEmbd_fsd(label_map, obj)
     else:
         mean_embd, mean_embd_tensor = labels_2_meanEmbd(label_map, obj, topn=35, prompt=PROMPT)
     
@@ -95,7 +127,7 @@ def get_proto_ac_esc_us8k(data_type, model_type, train_type):
         label_map = get_label_map(data_type)
         
         if train_type == 'sv':
-            mean_embd, mean_embd_tensor = audioLabels_2_meanEmbd(label_map, obj)
+            mean_embd, mean_embd_tensor = audioLabels_2_meanEmbd_us8k_esc(label_map, obj)
         else:
             mean_embd, mean_embd_tensor = labels_2_meanEmbd(label_map, obj, topn=35, prompt=PROMPT)
 
