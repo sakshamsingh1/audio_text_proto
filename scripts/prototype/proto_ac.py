@@ -1,7 +1,8 @@
 from scripts.audioclip_utils import get_text_embd, get_audioclip_model
 import torch
 from tqdm import tqdm
-from common_utils import Fold_proto, get_label_map, run_inference_fsdk, run_inference
+import statistics as stats
+from common_utils import Fold_proto_fsd, get_label_map, run_inference_fsdk, run_inference, Fold_var_esc_us8k, get_fold_count
 
 def labels_2_meanEmbd(label_map, obj, topn=35, prompt = ''):
     model = get_audioclip_model()
@@ -72,16 +73,59 @@ def audioLabels_2_meanEmbd(label_map, obj):
         mean_embd_tensor[i, :] = mean_embd[i]
     return mean_embd, mean_embd_tensor
 
-def get_proto_ac(data_type, model_type, train_type):
-    obj = Fold_proto(data_type, model_type)
+def get_proto_ac_fsdk(data_type, model_type, train_type):
+    obj = Fold_proto_fsd(data_type, model_type)
     PROMPT = 'This is '
     label_map = get_label_map(data_type)
+    
     if train_type == 'sv':
         mean_embd, mean_embd_tensor = audioLabels_2_meanEmbd(label_map, obj)
     else:
         mean_embd, mean_embd_tensor = labels_2_meanEmbd(label_map, obj, topn=35, prompt=PROMPT)
-    if data_type == 'fsd50k':
-        curr_acc = run_inference_fsdk(obj, mean_embd_tensor)
-    else:
-        curr_acc = run_inference(obj, mean_embd_tensor)
+    
+    curr_acc = run_inference_fsdk(obj, mean_embd_tensor)
     print(f' Model=proto_ac, train_type={train_type}, data_type={data_type}, acc/mAP={curr_acc}')
+
+def get_proto_ac_esc_us8k(data_type, model_type, train_type):
+    accs = []
+    fold_count = get_fold_count(data_type)
+    PROMPT = 'This is '
+    for fold in range(1,fold_count+1):
+        obj = Fold_var_esc_us8k(data_type, model_type, FOLD=fold)
+        label_map = get_label_map(data_type)
+        
+        if train_type == 'sv':
+            mean_embd, mean_embd_tensor = audioLabels_2_meanEmbd(label_map, obj)
+        else:
+            mean_embd, mean_embd_tensor = labels_2_meanEmbd(label_map, obj, topn=35, prompt=PROMPT)
+
+        curr_acc = run_inference(obj, mean_embd_tensor)
+        print(f' Fold={fold}, acc/mAP={curr_acc}')
+        accs.append(curr_acc)
+    
+    mean_acc = stats.mean(accs)
+    print(f' Model=proto_ac, train_type={train_type}, data_type={data_type}, acc/mAP={mean_acc}')
+
+
+def get_proto_ac(data_type, model_type, train_type):
+    print(f' Started running : Model=proto_ac, train_type={train_type}, data_type={data_type}')
+    if data_type == 'fsd50k':
+        get_proto_ac_fsdk(data_type, model_type, train_type)
+    elif data_type == 'esc50' or data_type == 'us8k':
+        get_proto_ac_esc_us8k(data_type, model_type, train_type)
+
+    # if data_type == 'fsd50k':
+    #     obj = Fold_proto_fsd(data_type, model_type)
+    # elif data_type == 'esc50' or data_type == 'us8k':
+    #     obj = Fold_var_esc_us8k(data_type, model_type)
+    # PROMPT = 'This is '
+    # label_map = get_label_map(data_type)
+    # if train_type == 'sv':
+    #     mean_embd, mean_embd_tensor = audioLabels_2_meanEmbd(label_map, obj)
+    # else:
+    #     mean_embd, mean_embd_tensor = labels_2_meanEmbd(label_map, obj, topn=35, prompt=PROMPT)
+    # if data_type == 'fsd50k':
+    #     curr_acc = run_inference_fsdk(obj, mean_embd_tensor)
+    # else:
+    #     curr_acc = run_inference(obj, mean_embd_tensor)
+    # print(f' Model=proto_ac, train_type={train_type}, data_type={data_type}, acc/mAP={curr_acc}')

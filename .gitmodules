@@ -1,6 +1,3 @@
 [submodule "scripts/ref_repo/AudioCLIP"]
 	path = scripts/ref_repo/AudioCLIP
 	url = git@github.com:AndreyGuzhov/AudioCLIP.git
-[submodule "scripts/ref_repo/CLAP"]
-	path = scripts/ref_repo/CLAP
-	url = git@github.com:LAION-AI/CLAP.git

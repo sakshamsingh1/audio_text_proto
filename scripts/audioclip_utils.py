@@ -9,7 +9,7 @@ import os
 
 repo_path = os.path.join(os.getcwd(),'scripts/ref_repo/AudioCLIP/')
 sys.path.append(repo_path)
-from audioclip_utils.transforms import ToTensor1D, RandomPadding, RandomCrop
+from utils.transforms import ToTensor1D, RandomPadding, RandomCrop
 from model.audioclip import AudioCLIP
 
 ### AudioClip ###

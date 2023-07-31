@@ -8,6 +8,8 @@ import torch.nn as nn
 from sklearn.metrics import average_precision_score
 import numpy as np
 from tqdm import tqdm
+import laion_clap
+import os
 
 def get_cos_sim(mean_embd, curr_embd):
     cos = nn.CosineSimilarity(dim=1, eps=1e-8)
@@ -108,8 +110,8 @@ def read_pkl(file):
 
 def get_fsd_labels():
     base_dir = 'data/processed/fsd50k'
-    id_origLabel_map = read_pkl(base_dir+'label_map.pkl')
-    orig_clapLabel_map = read_pkl(base_dir+'label_to_clap_label.pkl')
+    id_origLabel_map = read_pkl(os.path.join(base_dir, 'label_map.pkl'))
+    orig_clapLabel_map = read_pkl(os.path.join(base_dir, 'label_to_clap_label.pkl'))
 
     id_clapLabel_map = {}
     labels = []
@@ -142,15 +144,27 @@ def get_label_map(data_type):
         return get_fsd_labels()
     return None
 
+# def get_near_dist_class(mean_embd, curr_embd):
+#     min_dist, min_class = None, None
+#     for _class in mean_embd:
+#         class_embd = mean_embd[_class]
+#         if class_embd is not None:
+#             dist = (curr_embd - class_embd).pow(2).sum().sqrt()
+#             if (min_dist is None) or (min_dist > dist):
+#                 min_dist = dist
+#                 min_class = _class
+        
+#     return min_dist, min_class
+
 def get_near_dist_class(mean_embd, curr_embd):
     min_dist, min_class = None, None
-    for _class in mean_embd:
-        class_embd = mean_embd[_class]
-        if class_embd is not None:
-            dist = (curr_embd - class_embd).pow(2).sum().sqrt()
-            if (min_dist is None) or (min_dist > dist):
-                min_dist = dist
-                min_class = _class
+    for _class, class_embd in enumerate(mean_embd):
+        # class_embd = mean_embd[_class]
+        
+        dist = (curr_embd - class_embd).pow(2).sum().sqrt()
+        if (min_dist is None) or (min_dist > dist):
+            min_dist = dist
+            min_class = _class
         
     return min_dist, min_class
 
@@ -186,7 +200,7 @@ def run_inference(obj, class_embds):
     return len(correct_dist)*100/len(obj.test_files)
 
 
-class Fold_var:
+class Fold_var_fsdk:
     def __init__(self, data_type, model_type, FOLD='train'):
         # fold can only be {'train', 'validation', 'test'}
         embd_file = get_embd_path(data_type, model_type)
@@ -217,8 +231,69 @@ class Fold_var:
                 curr_size += 1
         return curr_size
 
+class Fold_var_esc_us8k:
+    def __init__(self, data_type, model_type, FOLD=5):
+        self.test_fold = FOLD
+        embd_file = get_embd_path(data_type, model_type)
+        self.embds = torch.load(embd_file, map_location='cpu')
+        self.label_map = get_label_map(data_type)
+        train_size, test_size = self.get_sizes()
+        embd_dim = get_embdDim(model_type)
+        self.train_norm_feat = torch.empty(train_size, embd_dim)
+        self.test_norm_feat = torch.empty(test_size, embd_dim)
 
-class Fold_proto:
+        self.train_files = []
+        self.test_files = []
+
+        self.train_true_labels = []
+        self.train_true_labels_name = []
+        self.test_true_labels = []
+        self.test_true_labels_name = []
+
+        self.fill_train_data()
+        self.fill_test_data()
+
+    def fill_train_data(self):
+        train_idx = 0
+
+        for file, info in self.embds.items():
+            if self.test_fold != info['fold']:
+            
+                self.train_norm_feat[train_idx,:] = info['embd']
+                self.train_files.append(file)
+                
+                curr_label = info['class_gt']
+                self.train_true_labels.append(curr_label)
+                self.train_true_labels_name.append(self.label_map[curr_label])
+                train_idx += 1
+
+    def fill_test_data(self):
+        test_idx = 0
+
+        for file, info in self.embds.items():
+            if self.test_fold == info['fold']:
+            
+                self.test_norm_feat[test_idx,:] = info['embd']
+                self.test_files.append(file)
+                
+                curr_label = info['class_gt']
+                self.test_true_labels.append(curr_label)
+                self.test_true_labels_name.append(self.label_map[curr_label])
+                test_idx += 1  
+
+    def get_sizes(self):
+        train_size = 0
+        test_size = 0
+
+        for file, info in self.embds.items():
+            if self.test_fold == info['fold']:
+                test_size += 1
+            else:
+                train_size += 1
+
+        return train_size, test_size
+
+class Fold_proto_fsd:
     def __init__(self, data_type, model_type):
         self.num_class = get_labelCount(data_type)
 
@@ -230,3 +305,15 @@ class Fold_proto:
         self.test_norm_feat = test_data.curr_norm_feat
         self.test_true_labels = test_data.curr_true_labels
 
+def get_clap_model():
+    model = laion_clap.CLAP_Module(enable_fusion=True)
+    ckpt_path = 'data/input/630k-audioset-fusion-best.pt'
+    model.load_ckpt(ckpt=ckpt_path)
+    return model
+
+def get_fold_count(data_type):
+    if data_type == "esc50":
+        return 5
+    elif data_type == "us8k":
+        return 10
+    return None

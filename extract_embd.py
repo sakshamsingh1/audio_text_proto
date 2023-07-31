@@ -4,6 +4,9 @@ import torch
 
 from scripts.embd_extract.get_embd import gen_embd
 
+def main(args):
+    gen_embd(args)
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_type", type=str, default="audioclip", help="clap or audioclip")
@@ -14,4 +17,4 @@ if __name__ == "__main__":
     ## manual args
     args.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-    gen_embd(args)
+    main(args)

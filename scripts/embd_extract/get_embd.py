@@ -6,16 +6,15 @@ from torch.utils.data import DataLoader
 import warnings
 warnings.filterwarnings("ignore")
 
-from common_utils import ESC, FSD50k, US8k, get_embd_path
-from scripts.embd_extract.audioclip_utils import get_norm_audio_embd, get_audioclip_model
-from scripts.embd_extract.clap_utils import get_clap_model
+from common_utils import ESC, FSD50k, US8k, get_embd_path, get_clap_model
+from scripts.audioclip_utils import get_norm_audio_embd, get_audioclip_model
 
 def gen_embd(args):
     model = None
     if args.model_type == "audioclip":
-        model = get_audioclip_model(args)
+        model = get_audioclip_model()
     elif args.model_type == "clap":
-        model = get_clap_model(args)
+        model = get_clap_model()
 
     save_path = get_embd_path(args.dataset_name, args.model_type)
 
