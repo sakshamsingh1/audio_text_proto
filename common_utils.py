@@ -218,7 +218,7 @@ class Fold_var_fsdk:
         curr_idx = 0
         for file, info in self.embds.items():
             if self.curr_fold == info['fold']:
-                self.curr_norm_feat[curr_idx, :] = info['embd']
+                self.curr_norm_feat[curr_idx, :] = torch.tensor(info['embd'])
                 curr_label = info['class_gt']
                 self.curr_true_labels.append(curr_label)
                 self.curr_true_labels_name.append([self.label_id_name_map[l] for l in curr_label])
@@ -259,7 +259,7 @@ class Fold_var_esc_us8k:
         for file, info in self.embds.items():
             if self.test_fold != info['fold']:
             
-                self.train_norm_feat[train_idx,:] = info['embd']
+                self.train_norm_feat[train_idx,:] = torch.tensor(info['embd'])
                 self.train_files.append(file)
                 
                 curr_label = info['class_gt']
@@ -273,7 +273,7 @@ class Fold_var_esc_us8k:
         for file, info in self.embds.items():
             if self.test_fold == info['fold']:
             
-                self.test_norm_feat[test_idx,:] = info['embd']
+                self.test_norm_feat[test_idx,:] = torch.tensor(info['embd'])
                 self.test_files.append(file)
                 
                 curr_label = info['class_gt']
@@ -297,11 +297,11 @@ class Fold_proto_fsd:
     def __init__(self, data_type, model_type):
         self.num_class = get_labelCount(data_type)
 
-        train_data = Fold_var(data_type, model_type, FOLD='train')
+        train_data = Fold_var_fsdk(data_type, model_type, FOLD='train')
         self.train_norm_feat = train_data.curr_norm_feat
         self.train_true_labels = train_data.curr_true_labels
 
-        test_data = Fold_var(data_type, model_type, FOLD='test')
+        test_data = Fold_var_fsdk(data_type, model_type, FOLD='test')
         self.test_norm_feat = test_data.curr_norm_feat
         self.test_true_labels = test_data.curr_true_labels
 
