@@ -50,7 +50,8 @@ wget https://huggingface.co/lukewys/laion_clap/resolve/main/630k-audioset-fusion
 ```
 
 #### Extracting embeddings
-This code is slow (has to be optimized) and we provide the extracted embeddings inside `data/processed`
+This code is slow ( and has to be optimized). \
+We provide the extracted embeddings here [Google drive](https://drive.google.com/drive/folders/16NHruWbryJdkpRF2jYNopwJiQUg-sgmK?usp=sharing) and should be put inside `data/processed`
 ```
 python extract_embd.py --model_type <audioclip/clap> --dataset_name <esc50/us8k/fsd50k>
 ```
@@ -60,21 +61,10 @@ python extract_embd.py --model_type <audioclip/clap> --dataset_name <esc50/us8k/
 python prototypical.py --model_type <proto-lc/proto-ac> --data <esc50/us8k/fsd50k> --train_type <zs/sv>
 ```
 
-### Directory structure
+#### Baseline 
 ```
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── data
-  ├── input (contains the input data)
-       ├── ESC-50 
-       ├── US8K
-       ├── FSD50K
-       ├── Pre-trained models             
-  ├── processed (contains the processed data)
-       ├── audioClip-feat-embd 
-       ├── clap-feat-embd
-       ├── other-data
-├── scripts (contains the source code)
-  ├── ref-repo (contains the reference repo)
+python baseline.py --model_type <audioclip/clap> --data <esc50/us8k/fsd50k> --train_type <zs/sv>
 ```
+
+Our results in the paper:
+![alt text](imgs/results.png "Title")
