@@ -11,6 +11,15 @@ from tqdm import tqdm
 import laion_clap
 import os
 
+def get_num_class(data_type):
+    if data_type == "esc50":
+        return 50
+    elif data_type == "us8k":
+        return 10
+    elif data_type == "fsd50k":
+        return 200
+    return None
+
 def get_cos_sim(mean_embd, curr_embd):
     cos = nn.CosineSimilarity(dim=1, eps=1e-8)
     return cos(mean_embd, curr_embd)
@@ -350,3 +359,30 @@ class MLPLayers(nn.Module):
     def forward(self, X):
         X = self.sequential(X)
         return X
+
+class Fold_esc_us8k_basedata(Dataset):
+    def __init__(self, data_type, model_type, fold=1, transform=None, train=True, overfit=None):
+
+        self.obj = Fold_var_esc_us8k(data_type, model_type, FOLD=fold)
+        if train:
+            self.labels = self.obj.train_true_labels
+            self.audios = self.obj.train_norm_feat
+        else:
+            self.labels = self.obj.test_true_labels
+            self.audios = self.obj.test_norm_feat
+        
+        if overfit is not None:
+            self.audios = self.audios[:overfit,:]
+            self.labels = self.labels[:overfit]
+            
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.labels)
+
+    def __getitem__(self, idx):
+        label = self.labels[idx]
+        audio = self.audios[idx]
+        if self.transform is not None:
+            audio = self.transform(audio)
+        return audio, label

@@ -10,7 +10,6 @@ from scripts.audioclip_utils import get_audioclip_model, get_text_embd
 import warnings
 warnings.filterwarnings('ignore')
 
-
 def val_epoch_fsd(model, dataloader, criterion):
     model.eval()
     loss_sum, map_sum = 0.0,0
@@ -90,7 +89,7 @@ def train_sv_fsd(model_type):
 
 def run_zs_fsd(model_type):
     BATCH_SIZE = 32
-    NUM_WORKERS = 1
+    NUM_WORKERS = 4
     data_type = 'fsd50k'
     test_set = FSD_data(data_type, model_type, fold='test')
     testloader = DataLoader(test_set, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS)
@@ -109,25 +108,24 @@ def run_zs_fsd(model_type):
     for i in range(len(label_map)):
         labels.append(label_map[i])
 
-    text_data = [[f'{PROMPT}{label}'] for label in labels]
     map_sum = 0
 
     if model_type == 'audioclip':
-
+        text_data = [[f'{PROMPT}{label}'] for label in labels]
         text_embd = get_text_embd(text_data)
         scale_audio_text = torch.clamp(model.logit_scale_at.exp(), min=1.0, max=100.0)
         
         for data, batch_label in tqdm(testloader):
             logits_audio_text = scale_audio_text * data @ text_embd.T
             map_sum += get_map(logits_audio_text.detach().cpu(),batch_label,use_sig=False)
-
-        zs_map = round(map_sum / len(testloader),4)
+        
     
     elif model_type == 'clap':
+        text_data = [f'{PROMPT}{label}' for label in labels]
         for data, batch_label in tqdm(testloader):
             text_features = model.get_text_embedding(text_data)
             logits_audio_text = (data @ torch.tensor(text_features).t()).detach().cpu()
             map_sum += get_map(logits_audio_text.detach().cpu(),batch_label,use_sig=False)
-        zs_map = round(map_sum / len(testloader),4)
 
-    print(f'Zero shot map: {zs_map}')
+    zs_map = round(map_sum / len(testloader),4)
+    print(f'Model: {model_type} Zero shot mAP: {zs_map}')
