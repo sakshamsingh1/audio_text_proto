@@ -15,7 +15,8 @@ To use the repo, there are four steps:
 3. Download pretrained model for AudioClip and LIAON-CLAP
 4. Extract the embeddings using the `extract_embed.py` script
 OR use the already extracted embeddings
-4. For `proto-ac` and `proto-lc` models run `prototypical.py` script with the desired model and dataset
+5. For `proto-ac` and `proto-lc` models run `prototypical.py` script with the desired model and dataset
+6. For audioclip and laion-clap results run `baseline.py` script.
 
 #### Clone the repo
 ```
