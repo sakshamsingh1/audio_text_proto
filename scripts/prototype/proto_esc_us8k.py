@@ -20,7 +20,7 @@ def audioLabels_2_meanEmbd_us8k_esc(label_map, obj, model_type):
         ids = []
 
         for i, gt in enumerate(obj.train_true_labels):
-            if gt == label_idx:#label_name:
+            if gt == label_idx:
                 ids.append(i)
                 curr_audio = obj.train_norm_feat[i]
                 class_embd[label_idx].append(curr_audio)

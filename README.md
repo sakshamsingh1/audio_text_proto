@@ -1,6 +1,8 @@
 # ZS_audio_text
 Official release of the INTERSPEECH-23 paper : [A multimodal prototypical approach for unsupervised sound classification](https://arxiv.org/pdf/2306.12300.pdf)
 
+![alt text](imgs/approach.png "Title")
+
 ### Environment setup
 ```
 pip install -r requirements.txt

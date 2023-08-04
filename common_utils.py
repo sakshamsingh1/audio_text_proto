@@ -305,3 +305,48 @@ def get_fold_count(data_type):
     elif data_type == "us8k":
         return 10
     return None
+
+class FSD_data(Dataset):
+    def __init__(self, data_type, model_type, fold='train', transform=None):
+
+        self.obj = Fold_var_fsdk(data_type, model_type, FOLD=fold)
+        
+        self.labels = self.obj.curr_true_labels
+        self.audios = self.obj.curr_norm_feat
+            
+        self.transform = transform
+        self.num_class = 200
+
+    def __len__(self):
+        return len(self.labels)
+
+    def __getitem__(self, idx):
+        label = self.labels[idx]
+        audio = self.audios[idx]
+
+        label_oh = torch.zeros(self.num_class)
+        label_oh = label_oh.scatter_(0, torch.tensor(label), 1)
+
+        if self.transform is not None:
+            audio = self.transform(audio)
+
+        return audio, label_oh
+
+class MLPLayers(nn.Module):
+    def __init__(self, units=[512, 512, 512], nonlin=nn.ReLU(), dropout=0.1):
+        super(MLPLayers, self).__init__()
+        self.nonlin = nonlin
+        self.dropout = dropout
+
+        sequence = []
+        for u0, u1 in zip(units[:-1], units[1:]):
+            sequence.append(nn.Linear(u0, u1))
+            sequence.append(self.nonlin)
+            sequence.append(nn.Dropout(self.dropout))
+        sequence = sequence[:-2]
+
+        self.sequential = nn.Sequential(*sequence)
+
+    def forward(self, X):
+        X = self.sequential(X)
+        return X
