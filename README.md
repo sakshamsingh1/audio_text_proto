@@ -3,8 +3,14 @@ Official release of the INTERSPEECH-23 paper : [A multimodal prototypical approa
 
 ![alt text](imgs/approach.png "Title")
 
-### Environment setup
+### Before you start :
+### &nbsp; Environment setup
 ```
+#create the conda environment
+conda create --name multi_proto python=3.8
+conda activate multi_proto
+
+#install required packages 
 pip install -r requirements.txt
 ```
 

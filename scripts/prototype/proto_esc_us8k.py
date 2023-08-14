@@ -3,6 +3,7 @@ import statistics as stats
 
 from common_utils import Fold_proto_fsd, get_label_map, run_inference, Fold_var_esc_us8k, get_fold_count, get_clap_model, get_embdDim
 from scripts.prototype.proto_utils import labels_2_meanEmbd
+from scripts.audioclip_utils import get_audioclip_model
 
 def audioLabels_2_meanEmbd_us8k_esc(label_map, obj, model_type):
     labels = []
@@ -43,7 +44,7 @@ def get_proto_esc_us8k(data_type, model_type, train_type):
     
     if model_type == 'audioclip':
         PROMPT = 'This is '
-        model = get_clap_model()
+        model = get_audioclip_model()
     elif model_type == 'clap':
         PROMPT = 'This is a sound of '
         model = get_clap_model()
@@ -58,8 +59,11 @@ def get_proto_esc_us8k(data_type, model_type, train_type):
             mean_embd, mean_embd_tensor = labels_2_meanEmbd(model, label_map, obj, topn=35, prompt=PROMPT, model_type=model_type)
 
         curr_acc = run_inference(obj, mean_embd_tensor)
-        print(f' Fold={fold}, acc/mAP={curr_acc}')
+        print(f' Fold={fold}, acc/mAP={curr_acc}%')
         accs.append(curr_acc)
+        # if fold == 2:
+        #     torch.save(mean_embd_tensor, f'data/demo/mean_embd_tensor_{data_type}_{model_type}_{train_type}.pt')
+        #     break
     
     mean_acc = stats.mean(accs)
-    print(f' Final score: Model=proto_ac, train_type={train_type}, data_type={data_type}, acc/mAP={mean_acc}')
+    print(f' Final score: Model=proto_ac, train_type={train_type}, data_type={data_type}, acc/mAP={mean_acc}%')

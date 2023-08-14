@@ -5,6 +5,9 @@ import argparse
 from scripts.prototype.proto_fsd import get_proto_fsdk
 from scripts.prototype.proto_esc_us8k import get_proto_esc_us8k
 
+import warnings
+warnings.filterwarnings("ignore")
+
 def main(args):
     
     if args.model_type == "proto-lc":
