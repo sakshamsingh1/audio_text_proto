@@ -4,6 +4,14 @@ Official release of the INTERSPEECH-23 paper : [A multimodal prototypical approa
 ![alt text](imgs/approach.png "Title")
 
 ### Before you start :
+
+<br>
+
+###  &nbsp; Clone the repo
+```
+git clone --recurse-submodules git@github.com:sakshamsingh1/ZS_audio_text.git
+```
+
 ### &nbsp; Environment setup
 ```
 #create the conda environment
@@ -30,21 +38,15 @@ We noticed small discrepancy in reproducing results for laion-clap, maybe due to
 <br>
 
 ## Reproducing the results
-1. Clone the repo with submodule
-2. Download data and put them in the `data/input` directory
-3. Download pretrained model for AudioClip and LIAON-CLAP
-4. Use the already extracted audio-embeddings (we also provide the scripts to extract embedding i.e. `extract_embed.py`)
-5. For `proto-ac` and `proto-lc` models run `prototypical.py` script with the desired model and dataset
-6. For audioclip and laion-clap results run `baseline.py` script.
+1. Download data and put them in the `data/input` directory
+2. Download pretrained model for AudioClip and LIAON-CLAP
+3. Use the already extracted audio-embeddings (we also provide the scripts to extract embedding i.e. `extract_embed.py`)
+4. For `proto-ac` and `proto-lc` models run `prototypical.py` script with the desired model and dataset
+5. For audioclip and laion-clap results run `baseline.py` script.
 
-<br>
 
-### 1. Clone the repo
-```
-git clone --recurse-submodules git@github.com:sakshamsingh1/ZS_audio_text.git
-```
 
-### 2. Download the datasets
+### 1. Download the datasets
 ```
 cd data/input
 
@@ -58,7 +60,7 @@ python download_us8k.py
 python download_fsd50k.py
 ```
 
-### 3. Download the pretrained models
+### 2. Download the pretrained models
 ```
 # For AudioCLIP
 # should be downloaded in scripts/ref_repo/AudioCLIP/assets
@@ -71,7 +73,7 @@ python download_fsd50k.py
 wget https://huggingface.co/lukewys/laion_clap/resolve/main/630k-audioset-fusion-best.pt 
 ```
 
-### 4. Extracting embeddings
+### 3. Extracting embeddings
 Download the extracted embeddings here [Google drive](https://drive.google.com/drive/folders/16NHruWbryJdkpRF2jYNopwJiQUg-sgmK?usp=sharing) and put inside `data/processed` \
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; OR
 
@@ -81,12 +83,12 @@ We also provide code for extracting embeddings but it is slow (and has to be opt
 python extract_embd.py --model_type <audioclip/clap> --dataset_name <esc50/us8k/fsd50k>
 ```
 
-### 5. Our prototypical approach (Proto-AC and Proto-LC rows in the result's table)
+### 4. Our prototypical approach (Proto-AC and Proto-LC rows in the result's table)
 ```
 python prototypical.py --model_type <proto-lc/proto-ac> --data <esc50/us8k/fsd50k> --train_type <zs/sv>
 ```
 
-### 6. Baseline results (AudioClip and LAION-CLAP rows in the result's table)
+### 5. Baseline results (AudioClip and LAION-CLAP rows in the result's table)
 ```
 python baseline.py --model_type <audioclip/clap> --data <esc50/us8k/fsd50k> --train_type <zs/sv>
 ```
