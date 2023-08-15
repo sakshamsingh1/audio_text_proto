@@ -8,7 +8,7 @@ termcolor==1.1.0
 visdom==0.1.8.9
 ftfy
 regex
-sklearn
+scikit-learn
 laion-clap
 torch==1.11.0
 torchvision==0.12.0
