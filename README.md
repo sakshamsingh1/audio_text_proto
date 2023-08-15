@@ -24,7 +24,8 @@ pip install -r requirements.txt
 <br>
 
 ### Demo code 
-Use our pre-computed prototype embeddings to find the class label (in ESC-50) for your input audio 
+Use our pre-computed prototype embeddings to find the class label (in ESC-50) for your input audio \
+NOTE: Please download the pretrained models before this. (i.e. follow step 2 in "Reproducing the results" section below)
 ```
 python demo.py --model_type=<proto-ac/proto-lc> --audio_path=<path_to_your_audio_file>
 ``` 
