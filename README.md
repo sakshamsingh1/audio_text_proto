@@ -13,15 +13,21 @@ conda activate multi_proto
 #install required packages 
 pip install -r requirements.txt
 ```
+<br>
 
-### Demo 
+### Demo code 
 Use our pre-computed prototype embeddings to find the class label (in ESC-50) for your input audio 
 ```
 python demo.py --model_type=<proto-ac/proto-lc> --audio_path=<path_to_your_audio_file>
-```
+``` 
+<br>
+
 
 Our results in the paper:
-![alt text](imgs/results.png "Title")
+![alt text](imgs/results.png "Title")\
+We noticed small discrepancy in reproducing results for laion-clap, maybe due to recent update in it.
+
+<br>
 
 ## Reproducing the results
 1. Clone the repo with submodule
@@ -30,6 +36,8 @@ Our results in the paper:
 4. Use the already extracted audio-embeddings (we also provide the scripts to extract embedding i.e. `extract_embed.py`)
 5. For `proto-ac` and `proto-lc` models run `prototypical.py` script with the desired model and dataset
 6. For audioclip and laion-clap results run `baseline.py` script.
+
+<br>
 
 ### 1. Clone the repo
 ```
