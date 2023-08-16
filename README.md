@@ -12,6 +12,11 @@ Official release of the INTERSPEECH-23 paper : [A multimodal prototypical approa
 git clone --recurse-submodules git@github.com:sakshamsingh1/ZS_audio_text.git
 ```
 
+Note: If you get error in cloning the submodule i.e. [AudioClip](https://github.com/AndreyGuzhov/AudioCLIP). Clone it manually inside `ref_repo` by running
+```
+git clone git@github.com:AndreyGuzhov/AudioCLIP.git 
+```
+
 ### &nbsp; Environment setup
 ```
 #create the conda environment
@@ -19,13 +24,24 @@ conda create --name multi_proto python=3.8
 conda activate multi_proto
 
 #install required packages 
+chmod a+x setup.sh
 ./setup.sh
 ```
 <br>
 
 ### Demo code 
-Use our pre-computed prototype embeddings to find the class label (in ESC-50) for your input audio \
-NOTE: Please download the pretrained models before this. (i.e. follow step 2 in "Reproducing the results" section below)
+Before running the demo code do 
+1. Please download the pretrained models before this. (i.e. follow step 2 in "Reproducing the results" section below)
+2. Also, download ESC-50k dataset
+```
+cd data/input
+
+# Download the ESC-50 dataset
+git clone git@github.com:karolpiczak/ESC-50.git
+```
+
+Use our pre-computed prototype embeddings to find the class label (in ESC-50) for your input audio 
+
 ```
 python demo.py --model_type=<proto-ac/proto-lc> --audio_path=<path_to_your_audio_file>
 ``` 
