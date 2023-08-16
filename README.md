@@ -19,7 +19,7 @@ conda create --name multi_proto python=3.8
 conda activate multi_proto
 
 #install required packages 
-pip install -r requirements.txt
+./setup.sh
 ```
 <br>
 
@@ -65,9 +65,9 @@ python download_fsd50k.py
 ```
 # For AudioCLIP
 # should be downloaded in scripts/ref_repo/AudioCLIP/assets
-! wget https://github.com/AndreyGuzhov/AudioCLIP/releases/download/v0.1/AudioCLIP-Full-Training.pt
-! rm bpe_simple_vocab_16e6.txt.gz
-! wget https://github.com/AndreyGuzhov/AudioCLIP/releases/download/v0.1/bpe_simple_vocab_16e6.txt.gz 
+wget https://github.com/AndreyGuzhov/AudioCLIP/releases/download/v0.1/AudioCLIP-Full-Training.pt
+rm bpe_simple_vocab_16e6.txt.gz
+wget https://github.com/AndreyGuzhov/AudioCLIP/releases/download/v0.1/bpe_simple_vocab_16e6.txt.gz 
 
 #FOR LAION_CLAP
 # Should be downloaded in data/input
