@@ -1,4 +1,4 @@
-# ZS_audio_text
+# MULTIMODAL PROTOTYPICAL SOUND RECOGNITION
 Official release of the INTERSPEECH-23 paper : [A multimodal prototypical approach for unsupervised sound classification](https://arxiv.org/pdf/2306.12300.pdf)
 
 ![alt text](imgs/approach.png "Title")
