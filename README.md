@@ -9,7 +9,7 @@ Official release of the INTERSPEECH-23 paper : [A multimodal prototypical approa
 
 ###  &nbsp; Clone the repo
 ```
-git clone --recurse-submodules git@github.com:sakshamsingh1/ZS_audio_text.git
+git clone --recurse-submodules git@github.com:sakshamsingh1/audio_text_proto.git
 ```
 
 Note: If you get error in cloning the submodule i.e. [AudioClip](https://github.com/AndreyGuzhov/AudioCLIP). Clone it manually inside `ref_repo` by running
